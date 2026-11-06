@@ -1,0 +1,314 @@
+{
+ "openapi": "3.0.3",
+ "info": {
+  "title": "ShortVideo Render API",
+  "description": "Turn a script plus your own images or videos into a publish-ready vertical video.\n\nOne call submits an asynchronous render job. The response gives you a job id; poll it, or pass a webhook_url and we call you when it is done. Output is a 1080x1920 MP4 with voice-over, sentence-accurate subtitles, royalty-free music and -14 LUFS loudness already done.\n\nBilled by output minutes: reserved when you submit, settled to the real render length, refunded in full when a render fails.",
+  "version": "1.0.0"
+ },
+ "servers": [
+  {
+   "url": "https://api.ruihengit.com/vid",
+   "description": "Production"
+  }
+ ],
+ "tags": [
+  {
+   "name": "render",
+   "description": "Submit, poll and download renders"
+  }
+ ],
+ "paths": {
+  "/v1/videos": {
+   "post": {
+    "operationId": "createVideo",
+    "tags": [
+     "render"
+    ],
+    "summary": "Submit a render job",
+    "description": "Creates an asynchronous render job and reserves minutes for it.",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "spec"
+        ],
+        "properties": {
+         "spec": {
+          "type": "object",
+          "description": "Render spec: scenes[] with images/videos, lines[] with text and voice.",
+          "additionalProperties": true
+         },
+         "webhook_url": {
+          "type": "string",
+          "description": "Optional URL called when the job finishes."
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "202": {
+      "description": "Job accepted",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "job_id": {
+           "type": "string"
+          },
+          "status": {
+           "type": "string"
+          },
+          "reserved_minutes": {
+           "type": "number"
+          },
+          "balance_minutes": {
+           "type": "number"
+          },
+          "poll_url": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     },
+     "402": {
+      "description": "Insufficient minutes"
+     }
+    }
+   },
+   "get": {
+    "operationId": "listVideos",
+    "tags": [
+     "render"
+    ],
+    "summary": "List your render jobs",
+    "parameters": [
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer"
+      },
+      "description": "Maximum number of jobs to return."
+     },
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      },
+      "description": "Filter by status: queued, running, done, failed."
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "A list of jobs",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     }
+    }
+   }
+  },
+  "/v1/videos/{job_id}": {
+   "get": {
+    "operationId": "getVideo",
+    "tags": [
+     "render"
+    ],
+    "summary": "Poll a render job",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      },
+      "description": "The job id returned by createVideo."
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Job state",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "job_id": {
+           "type": "string"
+          },
+          "status": {
+           "type": "string"
+          },
+          "duration": {
+           "type": "number"
+          },
+          "minutes_billed": {
+           "type": "number"
+          },
+          "download_url": {
+           "type": "string"
+          },
+          "bytes": {
+           "type": "integer"
+          },
+          "sha256": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     },
+     "404": {
+      "description": "Job not found"
+     }
+    }
+   },
+   "delete": {
+    "operationId": "deleteVideo",
+    "tags": [
+     "render"
+    ],
+    "summary": "Cancel or delete a job",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Deleted",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     },
+     "404": {
+      "description": "Job not found"
+     }
+    }
+   }
+  },
+  "/v1/videos/{job_id}/file": {
+   "get": {
+    "operationId": "downloadVideo",
+    "tags": [
+     "render"
+    ],
+    "summary": "Download the finished MP4",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "The rendered MP4",
+      "content": {
+       "video/mp4": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     },
+     "404": {
+      "description": "Job not found or not finished"
+     }
+    }
+   }
+  },
+  "/v1/usage": {
+   "get": {
+    "operationId": "getUsage",
+    "tags": [
+     "render"
+    ],
+    "summary": "Balance and ledger",
+    "responses": {
+     "200": {
+      "description": "Current balance and recent ledger rows",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "name": {
+           "type": "string"
+          },
+          "plan": {
+           "type": "string"
+          },
+          "balance_minutes": {
+           "type": "number"
+          },
+          "ledger": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "additionalProperties": true
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing or invalid API key"
+     }
+    }
+   }
+  }
+ }
+}
