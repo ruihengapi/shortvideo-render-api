@@ -1,5 +1,7 @@
 # ShortVideo Render API
 
+**Docs:** [Interactive API reference](https://ruihengapi.github.io/shortvideo-render-api/) · [Endpoints](https://ruihengapi.github.io/shortvideo-render-api/openapi.json) · [Product & pricing](https://api.ruihengit.com/vid/en)
+
 Turn a script plus your images or clips into a **publish-ready vertical video** with one HTTP call.
 You get back a 1080x1920 (9:16) MP4 with AI voice over, sentence-accurate burned-in subtitles,
 background music and audio normalised to **-14 LUFS** — no editing timeline, no ffmpeg, no caption sync.
