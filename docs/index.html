@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShortVideo Render API — Reference</title>
+<meta name="description" content="OpenAPI reference for the ShortVideo Render API: send a script plus images or clips, get a publish-ready 1080x1920 MP4 with AI voice over, sentence-accurate subtitles and -14 LUFS audio. Billed per output minute.">
+<link rel="canonical" href="https://ruihengapi.github.io/shortvideo-render-api/">
+<style>
+  html,body{margin:0;padding:0;background:#0c0f14;color:#e8eef7;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:26px 28px 18px;border-bottom:1px solid #232b38;background:#0c0f14}
+  h1{margin:0 0 6px;font-size:26px;letter-spacing:-.02em}
+  .sub{color:#8b98ab;font-size:15px;margin:0 0 12px}
+  .links{display:flex;gap:10px;flex-wrap:wrap;font-size:14px}
+  .links a{color:#4c8dff;text-decoration:none;border:1px solid #232b38;border-radius:999px;padding:4px 12px}
+  .links a:hover{background:#141922}
+  .pricing{margin-top:14px;font-size:14px;color:#8b98ab}
+  .pricing b{color:#e8eef7}
+  #redoc{min-height:70vh}
+  footer{padding:18px 28px;border-top:1px solid #232b38;color:#8b98ab;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>ShortVideo Render API</h1>
+  <p class="sub">One POST: a script plus your images or clips in, a publish-ready 1080x1920 MP4 out —
+  AI voice over, sentence-accurate subtitles, background music, -14 LUFS audio.</p>
+  <div class="links">
+    <a href="https://api.ruihengit.com/vid/en">Product &amp; live pricing</a>
+    <a href="https://api.ruihengit.com/vid/docs">Docs</a>
+    <a href="https://rapidapi.com/ruihengapi/api/shortvideo-render">RapidAPI</a>
+    <a href="https://github.com/ruihengapi/shortvideo-render-api">Repository</a>
+    <a href="./openapi.json">openapi.json</a>
+  </div>
+  <p class="pricing">
+    <b>Basic $0</b> evaluation &nbsp;·&nbsp; <b>Starter $9</b>/mo · 100 minutes &nbsp;·&nbsp;
+    <b>Growth $29</b>/mo · 500 minutes &nbsp;·&nbsp; <b>Scale $79</b>/mo · 2,000 minutes.
+    Failed renders are refunded automatically.
+  </p>
+</header>
+<div id="redoc">Loading reference…</div>
+<footer>
+  ShortVideo Render API · billed per output minute · failed renders never consume minutes.
+</footer>
+<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+<script>
+  Redoc.init("./openapi.json", {
+    hideDownloadButton: false,
+    expandResponses: "200",
+    pathInMiddlePanel: true,
+    theme: {
+      colors: { primary: { main: "#4c8dff" } },
+      typography: { fontSize: "15px", fontFamily: "-apple-system, Segoe UI, Roboto, sans-serif" },
+      sidebar: { backgroundColor: "#0c0f14", textColor: "#8b98ab", activeTextColor: "#4c8dff" },
+      rightPanel: { backgroundColor: "#141922", textColor: "#e8eef7" }
+    }
+  }, document.getElementById("redoc"));
+</script>
+</body>
+</html>
