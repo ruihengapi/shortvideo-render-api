@@ -18,6 +18,17 @@ videos per day, each with voice over and readable subtitles. Doing it yourself m
 aligner, an ffmpeg pipeline, a loudness pass and a storage layer — five moving parts and a queue to babysit.
 This API replaces all five with one request, billed per output minute.
 
+## Sample output
+
+A 10 second vertical video rendered by this API from a two-line script — nothing edited afterwards:
+[watch the MP4](https://api.ruihengit.com/vid/demo.mp4).
+
+## Further reading
+
+- [100 Vertical Videos a Day From One API Call](https://api.ruihengit.com/vid/blog/100-vertical-videos)
+- [DIY Video Pipeline vs a Render API](https://api.ruihengit.com/vid/blog/diy-vs-api)
+- [Batch Render Vertical Videos From a CSV](https://api.ruihengit.com/vid/blog/batch-render-from-csv)
+
 ## Quick start
 
 ```bash
